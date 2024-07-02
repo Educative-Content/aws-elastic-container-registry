@@ -1,11 +1,11 @@
 FROM ubuntu:latest
 
-RUN apt-get update \  
-  && apt-get install -y python3-pip python3-dev \  
-  && cd /usr/local/bin \  
-  && ln -s /usr/bin/python3 python \  
-  && pip3 install flask  
-  
+RUN apt-get update  
+RUN apt-get install -y python3-pip python3-dev 
+RUN cd /usr/local/bin 
+RUN ln -s /usr/bin/python3 python 
+RUN pip3 install flask  
+
 COPY echo.py echo.py 
 
 ENTRYPOINT ["python3","echo.py"]
