@@ -1,11 +1,17 @@
 FROM ubuntu:latest
 
-RUN apt-get update  
-RUN apt-get install -y python3-pip python3-dev 
-RUN cd /usr/local/bin 
-RUN ln -s /usr/bin/python3 python 
-RUN pip3 install flask  
+# Update package list and install required packages
+RUN apt-get update && apt-get install -y python3-pip python3-venv
 
-COPY echo.py echo.py 
+# Create a virtual environment and activate it
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-ENTRYPOINT ["python3","echo.py"]
+# Install Flask inside the virtual environment
+RUN pip install flask
+
+# Copy your application code
+COPY echo.py echo.py
+
+# Set the entrypoint to use the Python executable from the virtual environment
+ENTRYPOINT ["/opt/venv/bin/python", "echo.py"]
